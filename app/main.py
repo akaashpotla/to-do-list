@@ -12,6 +12,5 @@ def health():
 
 @app.get("/db-check")
 def db_check(db: Session = Depends(get_db)):
-    # If this returns 1, your DB connection is working.
     result = db.execute(text("SELECT 1")).scalar_one()
     return {"db": "ok", "result": result}
