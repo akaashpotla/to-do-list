@@ -4,7 +4,6 @@ from sqlalchemy import Enum as SQLEnum
 
 from app.core.enums import TaskStatus
 from app.db.base import Base
-from app.models.user import User
 
 class Task(Base):
     __tablename__ = "tasks"
