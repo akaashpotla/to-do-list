@@ -1,16 +1,20 @@
-import uuid
+
 from app.models import User
-from app.db.session import SessionLocal
 
 
 class TestUser:
-    def test_create_user(self):
-        db = SessionLocal()
-        unique_email = f"akaash+{uuid.uuid4()}@gmail.com"
-        user = User(name="Akaash Potla", email=unique_email, password="password")
-        db.add(user)
-        db.commit()
+    def test_create_user(self, db_session):
+        user = User(
+            name="Akaash Potla",
+            email="akaash@gmail.com",
+            password="password"
+        )
+
+        db_session.add(user)
+        db_session.commit()
+        db_session.refresh(user)
+
         assert user.name == "Akaash Potla"
-        assert user.email == unique_email
+        assert user.email == "akaash@gmail.com"
         assert user.password == "password"
         assert user.id is not None
