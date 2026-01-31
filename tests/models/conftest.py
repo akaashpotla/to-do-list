@@ -26,7 +26,7 @@ def db_session():
     try:
         yield db
     finally:
+        db.rollback()
         db.close()
-        transaction.rollback()
         connection.close()
         Base.metadata.drop_all(bind=engine)
