@@ -16,7 +16,6 @@ def db_session():
     Base.metadata.create_all(bind=engine)
     
     connection = engine.connect()
-    # transaction = connection.begin()
     
     LocalTestingSession = sessionmaker(
         autocommit=False,
@@ -41,6 +40,7 @@ def client(db_session):
 
     app.dependency_overrides[get_db] = override_get_db
 
-    yield TestClient(app)
+    with TestClient(app) as c:
+        yield c
 
     app.dependency_overrides.clear()
