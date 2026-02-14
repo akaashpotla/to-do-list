@@ -2,9 +2,27 @@ from fastapi import Depends, FastAPI
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.db.session import get_db
+from app.db.base import Base
+from app.db.session import engine
+import app.models
 
-app = FastAPI(title="To-Do List API")
+from contextlib import asynccontextmanager
+from app.db.session import get_db
+from app.api.v1.users import router
+
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+
+app = FastAPI(
+    title="To-Do List API",
+    lifespan=lifespan
+)
+
+app.include_router(router)
 
 @app.get("/health")
 def health():
