@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.db.session import get_db
 from app.models.user import User as UserModel
 from app.schemas import User as UserSchema, UserResponse
-from app.hashing import get_password_hash
+from app.core.hashing import get_password_hash
 
 router = APIRouter(prefix="/api/v1", tags=["users"])
 
