@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 
 from app.db.base import Base
 from app.db.session import engine
-import app.models
+# import app.models
 
 from contextlib import asynccontextmanager
 from app.db.session import get_db
-from app.api.v1.users import router
-
+from app.api.v1.users import router as users_router
+from app.api.v1.auth import router as auth_router
 
 
 @asynccontextmanager
@@ -22,7 +22,8 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-app.include_router(router)
+app.include_router(users_router)
+app.include_router(auth_router)
 
 @app.get("/health")
 def health():
