@@ -12,15 +12,15 @@ from app.db.base import Base
 @pytest.fixture()
 def db_session():
     engine = create_engine(settings.DATABASE_URL)
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.drop_all(bind = engine)
+    Base.metadata.create_all(bind = engine)
     
     connection = engine.connect()
     
     LocalTestingSession = sessionmaker(
-        autocommit=False,
-        autoflush=False,
-        bind=connection
+        autocommit = False,
+        autoflush = False,
+        bind = connection
     )
     
     db = LocalTestingSession()
@@ -31,7 +31,7 @@ def db_session():
         db.rollback()
         db.close()
         connection.close()
-        Base.metadata.drop_all(bind=engine)
+        Base.metadata.drop_all(bind = engine)
 
 @pytest.fixture()
 def client(db_session):

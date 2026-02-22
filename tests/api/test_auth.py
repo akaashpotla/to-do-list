@@ -12,9 +12,9 @@ PASSWORD = "1Password!"
 
 def create_user(db_session):
         user = User(
-            name=NAME,
-            email=EMAIL,
-            password=get_password_hash(PASSWORD)
+            name = NAME,
+            email = EMAIL,
+            password = get_password_hash(PASSWORD)
         )
         db_session.add(user)
         db_session.commit()
@@ -31,7 +31,7 @@ class TestAuthValid:
         response = client.post(URL, data = {"username" : EMAIL})
         assert response.status_code == 422
 
-    def test_user_missing(self, client):
+    def test_invalid_user(self, client):
         response = client.post(URL, data = {"username" : "missingemail@gmail.com", "password" : PASSWORD})
         assert response.status_code == 401
 
