@@ -8,9 +8,9 @@ from app.db.base import Base
 class Task(Base):
     __tablename__ = "tasks"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), index=True)
-    title: Mapped[str] = mapped_column(String(200), nullable=False)
-    state: Mapped[TaskStatus] = mapped_column(SQLEnum(TaskStatus), default=TaskStatus.OPEN)
+    id: Mapped[int] = mapped_column(Integer, primary_key = True, index = True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), index = True)
+    title: Mapped[str] = mapped_column(String(200), nullable = False)
+    state: Mapped[TaskStatus] = mapped_column(SQLEnum(TaskStatus), default = TaskStatus.OPEN)
 
-    user = relationship("User", back_populates="tasks")
+    user = relationship("User", back_populates = "tasks")
