@@ -1,11 +1,11 @@
 import re
 from pydantic import BaseModel, EmailStr, Field, field_validator
-
+from app.core.enums import TaskStatus
 
 class User(BaseModel):
-    name: str = Field(min_length = 1, max_length = 255)
-    email: EmailStr = Field(min_length = 1, max_length = 255)
-    password: str = Field(min_length = 8, max_length = 30)
+    name: str = Field(min_length=1, max_length=255)
+    email: EmailStr = Field(min_length=1, max_length=255)
+    password: str = Field(min_length=8, max_length=30)
     
     @field_validator('password')
     def password_checker(cls, v):
@@ -21,3 +21,18 @@ class UserResponse(BaseModel):
     id: int
     name: str
     email: EmailStr
+
+class Task(BaseModel):
+    title: str = Field(min_length=1, max_length=255)
+    
+class TaskResponse(BaseModel):
+    id: int
+    title: str
+    state: TaskStatus
+    user_id: int
+
+    class Config:
+        from_attributes = True
+
+class TokenData(BaseModel):
+    email: str
