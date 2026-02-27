@@ -10,9 +10,9 @@ class TestUser:
 
     def test_create_user_success(self, db_session):
         user = User(
-            name = NAME,
-            email = EMAIL,
-            password = PASSWORD
+            name=NAME,
+            email=EMAIL,
+            password=PASSWORD
         )
         db_session.add(user)
         db_session.commit()
@@ -24,8 +24,8 @@ class TestUser:
 
     def test_user_name_error(self, db_session):
         user = User(
-            email = EMAIL,
-            password = PASSWORD
+            email=EMAIL,
+            password=PASSWORD
         )
         db_session.add(user)
         with pytest.raises(IntegrityError):
@@ -33,8 +33,8 @@ class TestUser:
 
     def test_user_email_error(self, db_session):
         user = User(
-            name = NAME,
-            password = PASSWORD
+            name=NAME,
+            password=PASSWORD
         )
         db_session.add(user)
         with pytest.raises(IntegrityError):
@@ -42,8 +42,8 @@ class TestUser:
             
     def test_user_password_error(self, db_session):
         user = User(
-            name = NAME,
-            email = EMAIL,
+            name=NAME,
+            email=EMAIL
     )
         db_session.add(user)
         with pytest.raises(IntegrityError):

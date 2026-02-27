@@ -12,7 +12,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 201
         data = response.json()
 
@@ -26,7 +26,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_name_empty_string(self, client):
@@ -35,7 +35,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_name_too_long(self, client):
@@ -44,7 +44,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_email_missing(self, client):
@@ -52,7 +52,7 @@ class TestUserCreation:
             "name" : NAME,
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_email_empty_string(self, client):
@@ -61,7 +61,7 @@ class TestUserCreation:
             "email" : "",
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_email_non_email_string(self, client):
@@ -70,7 +70,7 @@ class TestUserCreation:
             "email" : "akaashpotla123",
             "password" : PASSWORD
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_missing_password(self, client):
@@ -78,7 +78,7 @@ class TestUserCreation:
             "name" : NAME,
             "email" : EMAIL
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_short_password(self, client):
@@ -87,7 +87,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : "Apple1!"
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_long_password(self, client):
@@ -96,7 +96,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : "1Password!kvjnscknaoisdjcffwkenvwivejnkdsjncjksndkjcvbsidbvjkskdjnvkjsdv"
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_password_without_uppercase(self, client):
@@ -105,7 +105,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : "1password!"
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_password_without_special_character(self, client):
@@ -114,7 +114,7 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : "1Password"
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422
 
     def test_password_without_number(self, client):
@@ -123,5 +123,5 @@ class TestUserCreation:
             "email" : EMAIL,
             "password" : "Password!"
         }
-        response = client.post(URL, json = payload)
+        response = client.post(URL, json=payload)
         assert response.status_code == 422

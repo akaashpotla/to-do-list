@@ -31,7 +31,7 @@ class TaskResponse(BaseModel):
     state: TaskStatus
     user_id: int
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 class TokenData(BaseModel):
