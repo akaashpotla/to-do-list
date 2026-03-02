@@ -59,7 +59,7 @@ class TestTaskCreation:
         response = client.post(URL, json=payload, headers=header)
         assert response.status_code==422
 
-    def test_create_task_failure(self, client, db_session):
+    def test_create_task_without_auth(self, client, db_session):
         create_user(db_session)
         header = get_auth_token(client)
         payload = {
