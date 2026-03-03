@@ -11,10 +11,10 @@ EMAIL = "akaash@gmail.com"
 PASSWORD = "1Password!"
 
 def create_user(db_session):
-        user = User(
-            name = NAME,
-            email = EMAIL,
-            password = get_password_hash(PASSWORD)
+        user=User(
+            name=NAME,
+            email=EMAIL,
+            password=get_password_hash(PASSWORD)
         )
         db_session.add(user)
         db_session.commit()

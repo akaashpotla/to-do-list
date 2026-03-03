@@ -5,10 +5,10 @@ from app import models
 import app.core.hashing as hashing
 from app.core import token
 from app.db import session
-router = APIRouter(prefix = "/api/v1/user", tags = ['Authentication'])
+router = APIRouter(prefix="/api/v1/user", tags=['Authentication'])
 
 @router.post('/auth')
-def login(request:OAuth2PasswordRequestForm = Depends(),db:Session = Depends(session.get_db)):
+def login(request:OAuth2PasswordRequestForm = Depends(), db:Session = Depends(session.get_db)):
     user = db.query(models.User).filter(models.User.email == request.username).first()
     if not user:
         raise HTTPException(
