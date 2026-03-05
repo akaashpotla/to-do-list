@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from app.core.enums import TaskStatus
 
@@ -23,7 +24,7 @@ class UserResponse(BaseModel):
     email: EmailStr
 
 class Task(BaseModel):
-    title: str = Field(min_length=1, max_length=255)
+    title: str = Field(min_length=1, max_length=200)
     
 class TaskResponse(BaseModel):
     id: int
@@ -33,6 +34,10 @@ class TaskResponse(BaseModel):
 
     class ConfigDict:
         from_attributes = True
+
+class TaskUpdate(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    state: Optional[TaskStatus] = None
 
 class TokenData(BaseModel):
     email: str

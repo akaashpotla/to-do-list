@@ -4,6 +4,7 @@ from app.models.user import User
 
 URL = "/api/v1/task"
 AUTH_URL = "/api/v1/user/auth"
+TASK_URL = "/api/v1/task"
 
 NAME = "Akaash Potla"
 EMAIL = "akaash@gmail.com"
@@ -76,3 +77,57 @@ class TestTaskCreation:
         }
         response = client.post(URL, json=payload, headers={"Authorization": f"Bearer invalid token"})
         assert response.status_code==401
+
+class TestTaskUpdate:
+    
+    def test_update_state_success(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(URL, json={"title": "Do hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.put(f"{TASK_URL}/{task_id}", json={"state": "completed"}, headers=header)
+        assert resp.status_code == 200
+        assert resp.json()["state"] == "completed"
+    
+    def test_update_title_success(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.put(f"{TASK_URL}/{task_id}", json={"title": "Do science hw"}, headers=header)
+        assert resp.status_code == 200
+        assert resp.json()["title"] == "Do science hw"
+        
+    def test_update_both_fields_success(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.put(f"{TASK_URL}/{task_id}", json={"title": "Do science hw", "state": "completed"}, headers=header)
+        assert resp.status_code == 200
+        assert resp.json()["state"] == "completed"
+        assert resp.json()["title"] == "Do science hw"
+
+    def test_update_empty_title(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(URL, json={"title": "Do hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.put(f"{TASK_URL}/{task_id}", json={"title": ""}, headers=header)
+        assert resp.status_code == 422
+
+    def test_update_task_wrong_id(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        resp = client.put(f"{TASK_URL}/1234", json={"title": "Do science hw"}, headers=header)
+        assert resp.status_code == 404
