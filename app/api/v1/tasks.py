@@ -11,8 +11,7 @@ router = APIRouter(prefix="/api/v1", tags=["tasks"])
 
 @router.post("/task", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
 def create_task(payload: TaskSchema, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    task = TaskModel(title=payload.title, user_id=current_user.id
-    )
+    task = TaskModel(title=payload.title, user_id=current_user.id)
 
     db.add(task)
     db.commit()
@@ -21,7 +20,7 @@ def create_task(payload: TaskSchema, db: Session = Depends(get_db), current_user
 
 @router.put("/task/{id}", response_model=TaskResponse, status_code=status.HTTP_200_OK)
 def update_task(id: int, payload: TaskUpdate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    task = (db.query(TaskModel).filter(TaskModel.id==id, TaskModel.user_id==current_user.id).first())
+    task = db.query(TaskModel).filter(TaskModel.id==id, TaskModel.user_id==current_user.id).first()
 
     if task is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")

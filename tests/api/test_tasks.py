@@ -2,7 +2,6 @@ from app.core.hashing import get_password_hash
 from app.models.user import User
 
 
-URL = "/api/v1/task"
 AUTH_URL = "/api/v1/user/auth"
 TASK_URL = "/api/v1/task"
 
@@ -34,7 +33,7 @@ class TestTaskCreation:
         payload = {
             "title": "Do hw"
         }
-        response = client.post(URL, json=payload, headers=header)
+        response = client.post(TASK_URL, json=payload, headers=header)
         assert response.status_code == 201
         data = response.json()
 
@@ -48,7 +47,7 @@ class TestTaskCreation:
         header = get_auth_token(client)
         payload = {
         }
-        response = client.post(URL, json=payload, headers=header)
+        response = client.post(TASK_URL, json=payload, headers=header)
         assert response.status_code == 422
 
     def test_title_empty_string(self, client, db_session):
@@ -57,7 +56,7 @@ class TestTaskCreation:
         payload = {
             "title" : ""
         }
-        response = client.post(URL, json=payload, headers=header)
+        response = client.post(TASK_URL, json=payload, headers=header)
         assert response.status_code==422
 
     def test_create_task_without_auth(self, client, db_session):
@@ -66,7 +65,7 @@ class TestTaskCreation:
         payload = {
             "title" : "Do hw"
         }
-        response = client.post(URL, json=payload)
+        response = client.post(TASK_URL, json=payload)
         assert response.status_code==401
 
     def test_create_task_invalid_token(self, client, db_session):
@@ -75,7 +74,7 @@ class TestTaskCreation:
         payload = {
             "title" : "Do hw"
         }
-        response = client.post(URL, json=payload, headers={"Authorization": f"Bearer invalid token"})
+        response = client.post(TASK_URL, json=payload, headers={"Authorization": f"Bearer invalid token"})
         assert response.status_code==401
 
 class TestTaskUpdate:
@@ -84,7 +83,7 @@ class TestTaskUpdate:
         create_user(db_session)
         header = get_auth_token(client)
 
-        response = client.post(URL, json={"title": "Do hw"}, headers=header)
+        response = client.post(TASK_URL, json={"title": "Do hw"}, headers=header)
         data = response.json()
         task_id = data["id"]
         resp = client.put(f"{TASK_URL}/{task_id}", json={"state": "completed"}, headers=header)
@@ -95,7 +94,7 @@ class TestTaskUpdate:
         create_user(db_session)
         header = get_auth_token(client)
 
-        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        response = client.post(TASK_URL, json={"title": "Do english hw"}, headers=header)
         data = response.json()
         task_id = data["id"]
         resp = client.put(f"{TASK_URL}/{task_id}", json={"title": "Do science hw"}, headers=header)
@@ -106,7 +105,7 @@ class TestTaskUpdate:
         create_user(db_session)
         header = get_auth_token(client)
 
-        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        response = client.post(TASK_URL, json={"title": "Do english hw"}, headers=header)
         data = response.json()
         task_id = data["id"]
         resp = client.put(f"{TASK_URL}/{task_id}", json={"title": "Do science hw", "state": "completed"}, headers=header)
@@ -118,7 +117,7 @@ class TestTaskUpdate:
         create_user(db_session)
         header = get_auth_token(client)
 
-        response = client.post(URL, json={"title": "Do hw"}, headers=header)
+        response = client.post(TASK_URL, json={"title": "Do hw"}, headers=header)
         data = response.json()
         task_id = data["id"]
         resp = client.put(f"{TASK_URL}/{task_id}", json={"title": ""}, headers=header)
@@ -128,6 +127,6 @@ class TestTaskUpdate:
         create_user(db_session)
         header = get_auth_token(client)
 
-        response = client.post(URL, json={"title": "Do english hw"}, headers=header)
+        response = client.post(TASK_URL, json={"title": "Do english hw"}, headers=header)
         resp = client.put(f"{TASK_URL}/1234", json={"title": "Do science hw"}, headers=header)
         assert resp.status_code == 404
