@@ -130,3 +130,80 @@ class TestTaskUpdate:
         response = client.post(TASK_URL, json={"title": "Do english hw"}, headers=header)
         resp = client.put(f"{TASK_URL}/1234", json={"title": "Do science hw"}, headers=header)
         assert resp.status_code == 404
+
+class TestTaskDelete:
+    def test_delete_task_successful(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(TASK_URL, json={"title": "Do hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.delete(f"{TASK_URL}/{task_id}", headers=header)
+        assert resp.status_code == 204
+
+    def test_delete_task_wrong_id(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        client.post(TASK_URL, json={"title": "Do hw"}, headers=header)
+        resp = client.delete(f"{TASK_URL}/999999", headers=header)
+        assert resp.status_code == 404
+
+    def test_delete_task_unauthorized(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+
+        response = client.post(TASK_URL, json={"title": "Do hw"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        resp = client.delete(f"{TASK_URL}/{task_id}")
+        assert resp.status_code == 401
+
+class TestGetOpenTasks:
+    def test_get_open_tasks_successful(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+        client.post(TASK_URL, json={"title": "Task 1"}, headers=header)
+        client.post(TASK_URL, json={"title": "Task 2"}, headers=header)
+        resp = client.get(TASK_URL, headers=header)
+        assert resp.status_code == 200
+        assert len(resp.json()["tasks"]) == 2
+
+    def test_get_zero_open_tasks(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+        resp = client.get(TASK_URL, headers=header)
+        assert resp.status_code == 200
+        assert len(resp.json()["tasks"]) == 0
+
+    def test_get_open_tasks_without_completed(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+        response = client.post(TASK_URL, json={"title": "Task 1"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        client.put(f"{TASK_URL}/{task_id}", json={"state": "completed"}, headers=header)
+        resp = client.get(TASK_URL, headers=header)
+        assert resp.status_code == 200
+        assert len(resp.json()["tasks"]) == 0
+    
+class TestGetCompletedTasks:
+    def test_get_completed_tasks_successful(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+        response = client.post(TASK_URL, json={"title": "Task 1"}, headers=header)
+        data = response.json()
+        task_id = data["id"]
+        client.put(f"{TASK_URL}/{task_id}", json={"state": "completed"}, headers=header)
+        resp = client.get(f"{TASK_URL}/completed", headers=header)
+        assert resp.status_code == 200
+        assert len(resp.json()["tasks"]) == 1
+
+    def test_get_zero_completed_tasks(self, client, db_session):
+        create_user(db_session)
+        header = get_auth_token(client)
+        client.post(TASK_URL, json={"title": "Task 1"}, headers=header)
+        resp = client.get(f"{TASK_URL}/completed", headers=header)
+        assert resp.status_code == 200
+        assert len(resp.json()["tasks"]) == 0
