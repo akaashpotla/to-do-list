@@ -1,25 +1,6 @@
-import jwt
-
-from app.models.user import User
-from app.core.hashing import get_password_hash
-from app.core.config import settings
+from tests.helper import create_user, NAME, EMAIL, PASSWORD
 
 URL = "/api/v1/user/auth"
-
-NAME = "Akaash Potla"
-EMAIL = "akaash@gmail.com"
-PASSWORD = "1Password!"
-
-def create_user(db_session):
-        user=User(
-            name=NAME,
-            email=EMAIL,
-            password=get_password_hash(PASSWORD)
-        )
-        db_session.add(user)
-        db_session.commit()
-        db_session.refresh(user)
-        return user
 
 class TestAuthValid:
     
