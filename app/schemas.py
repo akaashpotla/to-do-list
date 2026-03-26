@@ -41,3 +41,6 @@ class TaskUpdate(BaseModel):
 
 class TokenData(BaseModel):
     email: str
+
+class TaskListResponse(BaseModel):
+    tasks: list[TaskResponse]
