@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Button from 'react-bootstrap/Button';
+import Landing from './pages/Landing';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function App() {
+function Home() {
   const [health, setHealth] = useState(null);
 
   const checkHealth = async () => {
@@ -17,13 +22,25 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button className="App-link" onClick={checkHealth}>
+        <Button variant="primary" onClick={checkHealth}>
           Check Health
-        </button>
+        </Button>
           Health: {health}
       </header>
     </div>
   );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
