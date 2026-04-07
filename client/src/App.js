@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Landing from './pages/Landing';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Todolist from './pages/Todolist';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function Home() {
@@ -35,9 +36,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Landing/>} />
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/todolist" element={<Todolist/>}/>
       </Routes>
     </BrowserRouter>
   )
