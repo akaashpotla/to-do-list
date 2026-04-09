@@ -32,7 +32,7 @@ function Login() {
                 throw new Error(errData.detail || 'Unauthorized');
             }
 
-            navigate('/todolist');
+            navigate('/home');
         } catch (err) {
             setStatus({ loading: false, error: err.message });
         }
