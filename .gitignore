@@ -210,3 +210,4 @@ __marimo__/
 
 client/node_modules
 notes.txt
+docker-compose.yml

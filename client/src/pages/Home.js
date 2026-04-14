@@ -168,6 +168,14 @@ function Home() {
         );
     }
 
+    const handleLogout = async () => {
+        await fetch('http://localhost:8000/api/v1/user/logout', {
+            method: "POST",
+            credentials: 'include'
+        });
+        navigate('/login');
+    };
+
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#f0f4ff' }}>
             <Navbar bg="white" className="px-4 shadow-sm mb-5">
@@ -175,7 +183,7 @@ function Home() {
                     DoIt
                 </Navbar.Brand>
                 <Nav className="me-auto"></Nav>
-                <Button variant="outline-danger" onClick={() => navigate('/login')}>
+                <Button variant="outline-danger" onClick={handleLogout}>
                     Logout
                 </Button>
             </Navbar>

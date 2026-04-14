@@ -25,3 +25,12 @@ def login(response: Response, request:OAuth2PasswordRequestForm = Depends(), db:
     access_token = token.create_access_token(data = {"sub": user.email})
     response.set_cookie(key="access_token", value=access_token, httponly=True, samesite='lax')
     return {"message": "Login successful!"}
+
+@router.post('/logout')
+def logout(response: Response):
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        samesite='lax'
+    )
+    return {"message": "Logged out."}
