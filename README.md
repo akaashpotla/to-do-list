@@ -95,4 +95,5 @@ pytest
 ## Environment Variables
 
 `DATABASE_URL` : PostgreSQL connection string
+
 `SECRET_KEY` : Secret key used to sign JWT tokens
