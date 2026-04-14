@@ -2,7 +2,7 @@
 
 ## Overview
 
-DoIt is a full-stack web application following a Client-Server architectural pattern. The backend was implemented with FastAPI providing a RESTful architecture and a React frontend. The backend uses PostgreSQL for storage, and authenticates users via JWT tokens stored in httpOnly cookies. The frontend is a Single Page Application (SPA) that communicates with the backend only over HTTP.
+DoIt is a full-stack web application following a Client-Server architectural pattern and also follows a MVC (Model-View-Controller) structure at a high-level. The backend was implemented with FastAPI providing a RESTful architecture and a React frontend. The backend uses PostgreSQL for storage, and authenticates users via JWT tokens stored in httpOnly cookies. The frontend is a Single Page Application (SPA) that communicates with the backend only over HTTP.
 
 ---
 ## Data Models
